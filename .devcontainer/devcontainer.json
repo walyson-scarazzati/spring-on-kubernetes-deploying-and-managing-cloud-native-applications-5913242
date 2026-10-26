@@ -1,11 +1,11 @@
 {
   "hostRequirements": {
-    "cpus": 8,
-    "memory": "32gb"
+    "cpus": 4,
+    "memory": "16gb"
   },
   "overrideCommand": false,
   "features": {
-    "ghcr.io/devcontainers-contrib/features/kind:1": {}
+    "ghcr.io/devcontainers-extra/features/kind:1": {}
   },
   "mounts": [
     "source=var-lib-docker,target=/var/lib/docker,type=volume",
@@ -13,7 +13,7 @@
   ],
   "customizations": {
     "vscode": {
-      "extensions": [    
+      "extensions": [
         "GitHub.github-vscode-theme",
         "vscjava.vscode-java-pack",
         "vscjava.vscode-java-test",
