@@ -9,5 +9,6 @@ fi
 
 helm upgrade --install cloudnative-pg cloudnative-pg/cloudnative-pg
 echo "Waiting for operator to stabalize"
-sleep 30
+kubectl rollout status deployment/cloudnative-pg --timeout=120s
+kubectl wait --for=jsonpath='{.subsets[0].addresses}' endpoints/cnpg-webhook-service --timeout=60s
 kubectl apply -f config.yaml
