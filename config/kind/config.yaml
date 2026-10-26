@@ -28,4 +28,6 @@ nodes:
   - containerPort: 32000
     hostPort: 32000
     protocol: TCP
-  
+  extraMounts:
+  - hostPath: /tmp/kind-resolv.conf
+    containerPath: /etc/resolv.conf
