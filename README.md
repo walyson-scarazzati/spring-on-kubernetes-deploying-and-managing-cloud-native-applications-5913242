@@ -1,7 +1,5 @@
 # Spring on Kubernetes: Deploying and Managing Cloud-Native Applications
-This is the repository for the LinkedIn Learning course `Spring on Kubernetes: Deploying and Managing Cloud-Native Applications`. The full course is available from [LinkedIn Learning][lil-course-url].
-
-![lil-thumbnail-url]
+This is the repository for the LinkedIn Learning course `Spring on Kubernetes: Deploying and Managing Cloud-Native Applications`. The full course is available from [LinkedIn Learning][lil-course-url]. The [GitHub][github-repo-url] from course.
 
 ## Course Description
 
@@ -39,4 +37,4 @@ Check out my other courses on [LinkedIn Learning](https://www.linkedin.com/learn
 
 [lil-course-url]: https://www.linkedin.com/learning/spring-on-kubernetes-deploying-and-managing-cloud-native-applications
 [lil-thumbnail-url]: https://media.licdn.com/dms/image/v2/D4E0DAQGbScwnzErsnw/learning-public-crop_675_1200/learning-public-crop_675_1200/0/1726684715855?e=2147483647&v=beta&t=6m5UmFBAPLHndQQE3unqON2AfzkgHsLw4QWHxRVOhfc
-
+[github-repo-url]: https://github.com/LinkedInLearning/spring-on-kubernetes-deploying-and-managing-cloud-native-applications-5913242
