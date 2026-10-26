@@ -8,4 +8,5 @@ fi
 
 helm upgrade --install kind-prometheus prometheus-community/kube-prometheus-stack \
       --namespace monitoring --create-namespace \
+      --timeout 10m \
       -f config.yaml

@@ -30,6 +30,9 @@ defaultRules:
     nodeExporterRecording: true
     prometheus: false
     prometheusOperator: false
+prometheusOperator:
+  admissionWebhooks:
+    enabled: false
 prometheus:
   prometheusSpec:
     podMonitorSelectorNilUsesHelmValues: false
