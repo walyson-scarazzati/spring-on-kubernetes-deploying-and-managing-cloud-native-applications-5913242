@@ -20,6 +20,10 @@ metadata:
   name: localdb
   namespace: postgres
 spec:
+  # Pinned explicitly (rather than left to the operator's built-in
+  # default) so it's deterministic across runs and so deploy.sh can read
+  # it before any pod exists, to preload it into the kind node.
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.6-system-trixie
   instances: 1
   bootstrap:
     initdb:

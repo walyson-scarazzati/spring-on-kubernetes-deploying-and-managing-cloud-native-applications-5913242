@@ -24,6 +24,60 @@ To resolve this issue:
     Add changes to git using this command: git add .
 	Commit changes using this command: git commit -m "some message"
 
+## Running the local Kubernetes environment
+
+The `scripts/` directory sets up a local `kind` cluster with ingress-nginx, the kube-prometheus-stack monitoring stack, and a CloudNativePG-managed Postgres instance, then seeds it with sample data.
+
+### Prerequisites
+
+- `docker`, `kubectl`, `helm`, and `kind` available on your `PATH`
+- Inside GitHub Codespaces, these are already provided by the devcontainer
+
+### Setup
+
+```bash
+cd scripts
+./install.sh
+```
+
+This runs, in order: `kind` cluster creation, ingress-nginx, the monitoring stack, CloudNativePG + the `localdb` Postgres cluster, then `populate-db.sh` to load `dat/data.sql`. Each step waits on the previous one's actual readiness (nodes ready, deployments available, Postgres instance pods ready) before continuing, so a slow step won't cause a later one to fail against a resource that isn't up yet.
+
+Once finished, Postgres is reachable at `localhost:5432` (via the ingress's TCP passthrough) using the credentials in the `localdb-secret` Secret (`postgres` namespace):
+
+```bash
+kubectl get secret localdb-secret -n postgres -o jsonpath='{.data.username}' | base64 -d
+kubectl get secret localdb-secret -n postgres -o jsonpath='{.data.password}' | base64 -d
+```
+
+Grafana, Prometheus, and Alertmanager are exposed as NodePorts `31000`, `30000`, and `32000` respectively.
+
+### Teardown
+
+```bash
+cd scripts
+./destroy.sh
+```
+
+Deletes the `kind` cluster named `local` entirely.
+
+### Known issue: DNS inside GitHub Codespaces
+
+Some Codespaces (notably Azure-hosted ones) block outbound UDP:53 to public DNS resolvers, which can make the `kind` node unable to resolve registries like `ghcr.io`, even though the Codespace host itself has working DNS. `config/kind/deploy.sh` works around this automatically by pointing the node at whichever non-loopback nameserver the host itself was given, and `config/postgres/deploy.sh` preloads the operator and Postgres images from the host directly into the node as an extra safety net. If you still see a pod stuck in `ImagePullBackOff` after `install.sh`, check:
+
+```bash
+kubectl describe pod -n <namespace> <pod-name>
+```
+
+If the error mentions a DNS `i/o timeout`, pull the named image on the host and import it manually:
+
+```bash
+docker pull --platform linux/amd64 <image>
+docker save <image> -o /tmp/preload.tar
+docker exec -i local-control-plane ctr --namespace=k8s.io images import \
+  --platform linux/amd64 --digests --snapshotter=overlayfs - < /tmp/preload.tar
+kubectl delete pod -n <namespace> <pod-name>
+```
+
 ### Instructor
 
 Frank P Moley III
